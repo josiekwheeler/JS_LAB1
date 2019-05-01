@@ -1,36 +1,49 @@
 "use strict"
 
-let user = undefined;
-let userLife = 40;
-let grantLife = 10;
-let userWins = 0;
-let grantWins = 0;
-let userLost = 0;
-let grantLost = 0;
-let game = prompt("Do you want to play a game with the Alimighty Grant?", "yes or no");
+let grantHP = 10;
+let userHP = 40;
+let wins = 0;
+let name;
+let userChoice;
+
+function startGame() {
+    let play = prompt("Would you like to play?");
+    if (play === "yes") {
+        name = prompt("Enter your username?");
+        startCombat()
+    }
+}
 
 
-if (game === "yes") {
-    user = prompt("Choose your user name", "Josie Wheeler");
-    while (grantWins < 1 && userWins < 3) {
-        if (userLife > 0 && grantLife > 0) {
-            userLost = Math.floor(Math.random() * 2) + 1;
-            grantLost = Math.floor(Math.random() * 2) + 1;
-            userLife = userLife - userLost;
-            grantLife = grantLife - grantLost;
-            console.log(`${user} has ${userLife} remaining`);
-            console.log(`Grant has ${grantLife} remaining`);
-        } else if (grantLife <= 0) {
-            userWins++;
-            grantLife = 10;
-            console.log(`${user} wins ${userWins} rounds`);
-        } else if (userLife <= 0) {
-            console.log(`Grant Wins!`);
-            break;
-        }
-        if (userWins === 3) {
-            console.log(`${user} wins!`);
-            break;
+function startCombat() {
+    while (startGame) {
+        userChoice = prompt("Would you like to attack or quit?")
+        if (userChoice === "attack") {
+            getDamage();
+            console.log(`${name} has ${userHP} health left`);
+            console.log(`grant has ${grantHP} health left`);
+            if (grantHP <= 0) {
+                wins++;
+                grantHP = 10;
+                console.log(`grant has been defeated. ${name} has to beat grant ${3 - wins} more times.`);
+            }
+            if (userHP <= 0) {
+                console.log("you lose");
+                break;
+            }
+            if (wins === 3) {
+                console.log("you win");
+                break;
+            }
+        } else {
+            return;
         }
     }
+}
+
+startGame();
+
+function getDamage() {
+    userHP -= Math.floor((Math.random() * 5) + 1);
+    grantHP -= Math.floor((Math.random() * 5) + 1);
 }
